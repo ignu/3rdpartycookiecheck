@@ -1,11 +1,23 @@
 <body>
 <script>
- if (window.parent) {
-	if (/thirdparty=yes/.test(document.cookie)) {
-		window.parent.postMessage('MM:3PCsupported', '*');
-	} else {
-		window.parent.postMessage('MM:3PCunsupported', '*');
+	var message = function(message) {
+		return function() {
+			window.parent.postMessage(message, '*');
+		}
 	}
+
+ if (window.parent) {
+	 let fn
+
+	if (/thirdparty=yes/.test(document.cookie)) {
+		fn = message('MM:3PCsupported');
+	} else {
+		fn = message('MM:3PCunsupported');
+	}
+
+	fn()
+	setTimeout(fn, 100)
+	setTimeout(fn, 900)
  }
 </script>
 </body>
